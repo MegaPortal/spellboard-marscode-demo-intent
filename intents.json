@@ -20,6 +20,10 @@
             "async": true,
             "link": "/?markdown={markdown}",
             "example": "/?markdown=## Hello World",
+            "preferredSize": {
+                "width": 640,
+                "height": 480
+            },
             "returns": {
                 "type": "object",
                 "properties": {
