@@ -4,12 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script defer src="/_vercel/insights/script.js"></script>
-  <title>Reveal.js Intent</title>
-  <meta name="description" content="High-performance HTML based website template." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css">
+  <title>运势抽签</title>
+  <meta name="description" content="高性能基于HTML的网站模板。" />
   <style type="text/css">
     .cursor-pointer {
       cursor: pointer;
@@ -18,42 +14,50 @@
 </head>
 
 <body>
-  <div class="reveal">
-    <div class="slides">
-      <section data-markdown>
-        <textarea data-template id="slide-textarea">
-          # Hello
-        </textarea>
-      </section>
-    </div>
+  <div class="body">
+    <h1>运势抽签</h1>
+    <p id="fortune">点击页面任意位置进行抽签</p>
   </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/markdown/markdown.min.js"></script>
   <script>
-    var textarea = document.getElementById('slide-textarea');
 
     var url = new URL(window.location.href);
-    var md = url.searchParams.get('markdown');
-    var isFull = url.searchParams.get('full');
+    var spCallbackToken = url.searchParams.get('spCallbackToken');
 
-    if (!isFull) {
-      // add cursor-pointer class to body
-      document.body.className = 'cursor-pointer';
-      url.searchParams.set('full', 'true');
-      document.body.onclick = function() {
-        window.open(url.href, '_blank');
+    document.body.className = 'cursor-pointer';
+    document.body.onclick = function () {
+      var fortunes = [
+        "今天运气非常好，好事连连！",
+        "请保持乐观的心态，好运会接踵而来！",
+        "你将收到一个意想不到的好消息！",
+        "抬头望天，你会看到一颗闪亮的星星！",
+        "笑一笑，运气会更好！"
+      ];
+      var hash = window.location.hash.substr(1);
+      if (hash) {
+        var index = parseInt(hash);
+        if (!isNaN(index) && index >= 0 && index < fortunes.length) {
+          document.getElementById('fortune').innerHTML = fortunes[index];
+        }
+      } else {
+        var randomIndex = Math.floor(Math.random() * fortunes.length);
+        var fortune = fortunes[randomIndex];
+        document.getElementById('fortune').innerHTML = fortune;
+        window.location.hash = randomIndex.toString();
       }
     }
 
-    // set textarea value to slide content
-    textarea.innerHTML = md || `
-    ## Hello
-    `;
+    document.body.onclick();
 
-    Reveal.initialize({
-      plugins: [RevealMarkdown],
-    });
+    var text = document.getElementById('fortune').innerHTML;
+
+    if (spCallbackToken) {
+      window.parent.postMessage({
+        type: 'spell-response',
+        token: spCallbackToken,
+        content: text
+      }, '*');
+    }
+
   </script>
 </body>
 

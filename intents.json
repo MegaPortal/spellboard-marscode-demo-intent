@@ -1,25 +1,18 @@
 {
-    "name": "Reveal.js Markdown Renderer",
-    "description": "A simple API to render markdown to Reveal.js slides.",
+    "name": "Fortune Telling",
+    "description": "A simple API to provide fortune-telling results.",
     "intents": [
         {
-            "name": "generate_slides",
-            "description": "Generate Reveal.js slides from markdown.",
+            "name": "get_fortune",
+            "description": "Get a random fortune-telling result.",
             "parameters": {
                 "type": "object",
-                "properties": {
-                    "markdown": {
-                        "type": "string",
-                        "description": "The markdown to render to Reveal.js slides, for example: ## Introduction\n\n- Welcome to my presentation\n- We'll cover various topics\n\n---\n\n## The Basics\n\n- Point 1\n- Point 2\n- Point 3\n\n---\n\n## Key Points\n\n1. First important point\n2. Second important point\n3. Third important point\n\n---\n\n## Code Example\n\n```python\ndef hello_world():\n    print(\"Hello, world!\")\n```\n\n---\n\n## Conclusion\n\n- Thank you for your time\n- Questions?\n"
-                    }
-                },
-                "required": [
-                    "markdown"
-                ]
+                "properties": {},
+                "required": []
             },
             "async": true,
-            "link": "/?markdown={markdown}",
-            "example": "/?markdown=## Hello World",
+            "link": "/?fortune={fortune}",
+            "example": "/?fortune=0",
             "preferredSize": {
                 "width": 640,
                 "height": 480
@@ -29,7 +22,7 @@
                 "properties": {
                     "response": {
                         "type": "string",
-                        "description": "The rendered Reveal.js slides."
+                        "description": "The fortune-telling result."
                     }
                 }
             }
